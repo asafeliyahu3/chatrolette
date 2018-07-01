@@ -4,18 +4,31 @@
     <title>Socket.IO chat</title>
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; }
+      body { font: 13px Helvetica, Arial; height: 100%;}
+      #chatarea {overflow: hidden; height:60vh;}
       form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
       form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px;  }
+      #random {  width: 30%; background: rgb(130, 224, 255); border-style: dotted dashed solid double; border-color: black; border-width: 4px; padding: 10px; font-size: 30px;}
       #messages { list-style-type: none; margin: 0; padding: 0; }
       #messages li { padding: 5px 10px; }
       #messages li:nth-child(odd) { background: #eee; }
+      #buttondiv { text-align: center;  position: relative; }
+      #about { text-align: center; padding: 5vh; font-size: 40px; }
     </style>
   </head>
   <body>
-    <button id='random'>Random</button>
+    <div id='about' >
+~welcome to 8200 chat roulette~
+    </div>
+    <div id='buttondiv'>
+      <button id='random'>find me a random chat partner ! </button>
+    </div>
+
+<div id='chatarea'>
     <ul id="messages"></ul>
+  </div>
+
     <form action="">
       <input id="m" autocomplete="off" /><button>Send</button>
     </form>
@@ -23,10 +36,14 @@
     <script src="/socket.io/socket.io.js"></script>
   <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
   <script>
+
+  window.setInterval(function() {
+    var elem = document.getElementById('chatarea');
+    elem.scrollTop = elem.scrollHeight;
+  }, 500);
+
   var nickname = prompt("Please enter your name", "Harry Potter");
   nickname=nickname.replace(/\s/g, '');
-
-
 
 
 while (!nickname.length )
