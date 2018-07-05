@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+  <head>
+    <title>8200 chatroulette</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+  </head>
+  <body>
+    <a href="sms.html"> testing</a>
+    <div id='about' >
+      <img src="amangle_logo.png" width="300" height="170">
+
+    </div>
+    <div id='buttondiv'>
+      <button id='random'>find me a random chat partner ! </button>
+    </div>
+
+<div id='chatarea'>
+    <ul id="messages"></ul>
+  </div>
+
+    <form action="">
+      <input id="m" autocomplete="off" /><button>Send</button>
+    </form>
+
+    <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  <script>
+
+  window.setInterval(function() {
+    var elem = document.getElementById('chatarea');
+    elem.scrollTop = elem.scrollHeight;
+  }, 500);
+
+  var nickname = prompt("Please enter your name", "Harry Potter");
+  nickname=nickname.replace(/\s/g, '');
+
+
+while (!nickname.length )
+{
+  var nickname = prompt("Please enter your name", "Harry Potter");
+}
+
+
+  $(function () {
+    var socket = io();
+
+$("#random").click(function(){
+
+
+  socket.emit('random',nickname ,function (data) {
+    if (data == "exiting current chat room.. no new person found. everyone is busy")
+    {
+
+      $('#messages').append($('<li>').text("no new person found - everyone is busy - press again to rerun search"));
+    }
+    else {
+    $('#messages').append($('<li>').text(data));
+      }
+});
+
+  return false;
+});
+
+    $('form').submit(function(){
+
+  $('#messages').append($('<li>').text($('#m').val()));
+
+      socket.emit('chat message',nickname + ': ' + $('#m').val(),function (data) {
+        $('#messages').append($('<li>').text(data));
+
+    });
+      $('#m').val('');
+      return false;
+    });
+    socket.on('chat message', function(msg){
+      $('#messages').append($('<li>').text(msg));
+    });
+  });
+
+  </script>
+
+  </body>
+</html>

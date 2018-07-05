@@ -2,7 +2,7 @@ var app = require('express')();
 var http = require('http').Server(app);
 //var io = require('socket.io')(http);
 var io = require('socket.io').listen(http);
-
+var express = require('express');
 let avl_users = [];
 
 let rooms = [];
@@ -13,6 +13,10 @@ app.get('/', function(req, res) {
 
 
 
+app.use(express.static('public'));
+
+
+
 io.on('connection', function(socket) {
   console.log('Client connected from: ' + socket.handshake.address);
 
@@ -20,6 +24,7 @@ io.on('connection', function(socket) {
 
   //add user to avaliable users list
   avl_users.push(socket.id);
+
 
 
 
@@ -63,7 +68,7 @@ io.on('connection', function(socket) {
   });
 
   socket.on('chat message', function(msg, ack) {
-
+   partner="";
     for (var g = 0; g < rooms.length; g++) {
 
       if (typeof(rooms[g]) != "undefined") {
