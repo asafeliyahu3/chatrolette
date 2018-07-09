@@ -1,3 +1,6 @@
+
+
+
 let isScrolling = false;
 $("#chatarea").scroll(function() {
 
@@ -10,6 +13,9 @@ $("#chatarea").scroll(function() {
 
 
 });
+
+
+
 
 
 
@@ -37,6 +43,26 @@ var nickname = prompt("Please enter your name", "Harry Potter");
 }
 
 
+
+
+
+  $('#m').keypress(function (e) {
+ var key = e.which;
+ if(key == 13)  // the enter key code
+  {
+    $('#sendbutton').click();
+  console.log("enter pressed");
+    return false;
+  }
+});
+
+
+
+
+
+
+
+
 $(function () {
   var socket = io();
   let searchmode = false;
@@ -55,7 +81,7 @@ $(function () {
               searchmode = true;
             }
             else{
-              $('#chatarea').append($('<div class="bubble" >').text(data));
+              $('#chatarea').append($('<div class="systembubble"  >').text(data));
             document.getElementById("sp1").style.visibility = "hidden";
             document.getElementById("random").style.visibility = "visible";
           }
@@ -82,10 +108,10 @@ return false;
 
   $('form').submit(function(){
 
-$('#chatarea').append($('<div class="bubble bubble--alt">').text($('#m').val()));
+$('#chatarea').append($('<div class="bubble bubble--alt "  dir="rtl" >').text($('#m').val()));
 
     socket.emit('chat message',nickname + ': ' + $('#m').val(),function (data) {
-      $('#chatarea').append($('<div class="bubble" dir="auto" > ').text(data));
+      $('#chatarea').append($('<div class="systembubble" dir="rtl" > ').text(data));
 
   });
     $('#m').val('');
@@ -97,8 +123,17 @@ $('#chatarea').append($('<div class="bubble bubble--alt">').text($('#m').val()))
 
       document.getElementById("sp1").style.visibility = "hidden";
       document.getElementById("random").style.visibility = "visible";
+      $('#chatarea').append($('<div class="systembubble" dir="ltr" >').text(msg));
 
     }
-    $('#chatarea').append($('<div class="bubble" dir="auto">').text(msg));
+    else if ( msg == "client has left you :( - you are open for new connections" || msg == "client disconnected - you are open for new connections"  ){
+        $('#chatarea').append($('<div class="systembubble" dir="ltr" >').text(msg));
+
+    }
+    else {
+    $('#chatarea').append($('<div class="bubble" dir="rtl" >').text(msg));
+
+
+  }
   });
 });
