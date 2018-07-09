@@ -23,7 +23,7 @@ io.on('connection', function(socket) {
   let partner = "";
 
   //add user to avaliable users list
-  avl_users.push(socket.id);
+  //avl_users.push(socket.id);
 
 
 
@@ -45,14 +45,14 @@ io.on('connection', function(socket) {
 
       if (typeof(rooms[g]) != "undefined") {
         if (rooms[g].client1 == socket.id) {
-          socket.broadcast.to(rooms[g].client2).emit('chat message', "client disconnected - you are open for new connections");
-          avl_users.push(rooms[g].client2);
+          socket.broadcast.to(rooms[g].client2).emit('chat message', "client disconnected - press random again to search someone new");
+          //avl_users.push(rooms[g].client2);
           rooms.splice(g, 1);
           break;
         }
         if (rooms[g].client2 == socket.id) {
-          socket.broadcast.to(rooms[g].client1).emit('chat message', "client disconnected - you are open for new connections");
-          avl_users.push(rooms[g].client1);
+          socket.broadcast.to(rooms[g].client1).emit('chat message', "client disconnected - press random again to search someone new");
+          //avl_users.push(rooms[g].client1);
           rooms.splice(g, 1);
           break;
         }
@@ -94,20 +94,23 @@ io.on('connection', function(socket) {
   socket.on('random', function(msg, ack) {
     console.log('random was pressed by ' + socket.id);
 
+if ( avl_users.indexOf(socket.id) == -1 ){
+    avl_users.push(socket.id);
+}
 
     //exit current room
     for (var g = 0; g < rooms.length; g++) {
 
       if (typeof(rooms[g]) != "undefined") {
         if (rooms[g].client1 == socket.id) {
-          socket.broadcast.to(rooms[g].client2).emit('chat message', "client has left you :( - you are open for new connections");
-          avl_users.push(rooms[g].client2);
+          socket.broadcast.to(rooms[g].client2).emit('chat message', "client has left you :( - press random again to search someone new");
+          //avl_users.push(rooms[g].client2);
           rooms.splice(g, 1);
           break;
         }
         if (rooms[g].client2 == socket.id) {
-          socket.broadcast.to(rooms[g].client1).emit('chat message', "client has left you :( - you are open for new connections");
-          avl_users.push(rooms[g].client1);
+          socket.broadcast.to(rooms[g].client1).emit('chat message', "client has left you :( - press random again to search someone new");
+        //  avl_users.push(rooms[g].client1);
           rooms.splice(g, 1);
           break;
         }

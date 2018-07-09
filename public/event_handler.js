@@ -126,7 +126,7 @@ $('#chatarea').append($('<div class="bubble bubble--alt "  dir="rtl" >').text($(
       $('#chatarea').append($('<div class="systembubble" dir="ltr" >').text(msg));
 
     }
-    else if ( msg == "client has left you :( - you are open for new connections" || msg == "client disconnected - you are open for new connections"  ){
+    else if ( msg == "client has left you :( - press random again to search someone new" || msg == "client disconnected - press random again to search someone new"  ){
         $('#chatarea').append($('<div class="systembubble" dir="ltr" >').text(msg));
 
     }
